@@ -1,0 +1,3 @@
+The files in this folder are provided from the NIST Matrix Market, available at https://math.nist.gov/MatrixMarket/mmio/matlab/mmiomatlab.html.
+
+These files are not included in the license of the overall repository, and fall underneath their own copyright.

@@ -1,0 +1,5 @@
+# Ignore the matrices that were downloaded
+matrices/
+
+# Ignore any autosave files
+*.asv
