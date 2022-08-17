@@ -17,6 +17,13 @@ function [A] = anymatrix_matrixmarket( matrix )
 % Created on: August 17, 2022
 % SPDX-License-Identifier: MIT
 
+% This function is also called when querying the properties
+if strcmpi( matrix, 'am_properties' )
+    handle = str2func(matrix);
+    A = handle();
+    return
+end
+
 hmsets = {'acoust'
           'airtfc'
           'astroph'
