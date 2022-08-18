@@ -36,6 +36,9 @@ if ~isfolder( rootMatdir )
     mkdir( rootMatdir );
 end
 
+% We operate on lower-case matrix names for all the files/lookups
+matrix = lower( matrix );
+
 % Make sure the matrix is actually a matrix market matrxix
 if ~isKey(mmMats, matrix)
     errmsg = strcat( matrix, ' is not a valid Matrix Market matrix' );

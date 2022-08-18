@@ -26,6 +26,7 @@ To get a matrix from the Matrix Market, you only need to know the unique name fo
 A = anymatrix('matrixmarket/name');
 ```
 substituting the unique name after the slash.
+Note that the matrix name must be all lowercase.
 
 ## Notes
 
