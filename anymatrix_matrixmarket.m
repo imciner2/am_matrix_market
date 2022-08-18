@@ -24,105 +24,52 @@ if strcmpi( matrix, 'am_properties' )
     return
 end
 
-hmsets = {'acoust'
-          'airtfc'
-          'astroph'
-          'bcspwr'
-          'bcsstruc1'
-          'bcsstruc2'
-          'bcsstruc3'
-          'bcsstruc4'
-          'bcsstruc5'
-          'bcsstruc6'
-          'cannes'
-          'cegb'
-          'chemimp'
-          'chemwest'
-          'cirphys'
-          'counterx'
-          'dwt'
-          'econaus'
-          'econiea'
-          'facsimile'
-          'gemat'
-          'grenoble'
-          'jagmesh'
-          'lanpro'
-          'laplace'
-          'lapu'
-          'lns'
-          'lockheed'
-          'lshape'
-          'lsq'
-          'manteuffel'
-          'nnceng'
-          'nucl'
-          'oilgen'
-          'platz'
-          'pores'
-          'psadmit'
-          'psmigr'
-          'saylor'
-          'steam'
-          'smtape'
-          'sherman'
-          'watt'};
-
-% Constants
-harwellMarketurl = 'https://math.nist.gov/pub/MatrixMarket2/Harwell-Boeing/';
+% Get information about every matrix in the matrix market collection
+mmMats = mmMatrices();
 
 % We will use a directory in the folder we are located in
 [path, ~, ~] = fileparts( mfilename( 'fullpath' ) );
 
-matdir = [path, filesep, 'matrices'];
+rootMatdir = [path, filesep, 'matrices'];
 
-if ~isfolder( matdir )
-    mkdir( matdir );
+if ~isfolder( rootMatdir )
+    mkdir( rootMatdir );
 end
 
-% Extract the set and the matrix name
-parts = regexpi( matrix, '(.*)\/(.*)', 'tokens');
-
-if length(parts{1}) ~= 2
-    error( 'Matrix name must be given in set/matrix format' );
-end
-
-setname = parts{1}{1};
-matname = parts{1}{2};
-
-if any( contains( hmsets, lower(setname) ) )
-    % The Hartwell-Boeing collection of matrices
-    hbdir = [matdir, filesep, 'hb'];
-
-    if ~isfolder( hbdir )
-        mkdir( hbdir );
-    end
-
-    % Various filenames we will need
-    matrixVarFile    = [hbdir, filesep, matname, '.mat'];
-    matrixCompFile   = [hbdir, filesep, matname, '.mtx.gz'];
-    matrixMarketFile = [hbdir, filesep, matname, '.mtx'];
-
-    % Check if we already have downloaded the matrix, and if we have, use
-    % that
-    if isfile( matrixVarFile )
-        load( matrixVarFile, 'A' );
-        return;
-    end
-
-    % Download the file
-    outfile = websave( matrixCompFile, [harwellMarketurl, setname, '/', matname, '.mtx.gz'] );
-    gunzip(outfile);
-    delete( matrixCompFile );
-
-    % Load and then save the matrix for later use
-    A = mmread( matrixMarketFile );
-    delete( matrixMarketFile );
-    save( matrixVarFile, 'A', '-mat' );
-else
-    errmsg = strcat('Collection for ', matrix, ' not implemented' );
+% Make sure the matrix is actually a matrix market matrxix
+if ~isKey(mmMats, matrix)
+    errmsg = strcat( matrix, ' is not a valid Matrix Market matrix' );
     error( errmsg );
 end
+
+matInfo = mmMats(matrix);
+matrixDir = [rootMatdir, filesep, matInfo{2}];
+matrixURL = [matInfo{1}, '.mtx.gz'];
+
+if ~isfolder( matrixDir )
+    mkdir( matrixDir );
+end
+
+% Various filenames we will need
+matrixVarFile    = [matrixDir, filesep, matrix, '.mat'];
+matrixCompFile   = [matrixDir, filesep, matrix, '.mtx.gz'];
+matrixMarketFile = [matrixDir, filesep, matrix, '.mtx'];
+
+% Check if we already have downloaded the matrix, and if we have, use that
+if isfile( matrixVarFile )
+    load( matrixVarFile, 'A' );
+    return;
+end
+
+% Download the file
+outfile = websave( matrixCompFile, matrixURL );
+gunzip(outfile);
+delete( matrixCompFile );
+
+% Load and then save the matrix for later use
+A = mmread( matrixMarketFile );
+delete( matrixMarketFile );
+save( matrixVarFile, 'A', '-mat' );
 
 end
 
