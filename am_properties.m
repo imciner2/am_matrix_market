@@ -2,6 +2,12 @@ function [P] = am_properties()
 
 P = {
     %% Harwell-Boeing collection
+    % From the ACOUST: Acoustic scattering set
+    'young1c', {'complex', 'symmetric', 'indefinite', 'fixed size', 'square', 'sparse', 'banded'}
+    'young2c', {'complex', 'symmetric', 'indefinite', 'fixed size', 'square', 'sparse', 'banded'}
+    'young3c', {'complex', 'symmetric', 'indefinite', 'fixed size', 'square', 'sparse', 'banded'}
+    'young4c', {'complex', 'symmetric', 'indefinite', 'fixed size', 'square', 'sparse', 'banded'}
+
     % From the AIRTFC: Air-traffic Control Model set
     'zenios', {'real', 'symmetric', 'indefinite', 'fixed size', 'square', 'sparse', 'banded'}
 

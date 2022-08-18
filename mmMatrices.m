@@ -20,6 +20,12 @@ harwellMarketurl = 'https://math.nist.gov/pub/MatrixMarket2/Harwell-Boeing/';
 mats = containers.Map();
 
 %% Harwell-Boeing collection
+% From the ACOUST: Acoustic scattering set
+mats('young1c') = {[harwellMarketurl, 'acoust/young1c'], 'hb'};
+mats('young2c') = {[harwellMarketurl, 'acoust/young2c'], 'hb'};
+mats('young3c') = {[harwellMarketurl, 'acoust/young3c'], 'hb'};
+mats('young4c') = {[harwellMarketurl, 'acoust/young4c'], 'hb'};
+
 % From the AIRTFC: Air-traffic Control Model set
 mats('zenios') = {[harwellMarketurl, 'airtfc/zenios'], 'hb'};
 
