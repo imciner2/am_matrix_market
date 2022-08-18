@@ -1,4 +1,17 @@
 function mats = mmMatrices()
+%MMMATRICES Get a map of all matrices in the Matrix Market
+%
+% Returns a map containing the URL and the local cache directory
+% for all matrices in the NIST Matrix Market. The key in the map is
+% the lowercase name of the matrix (no set included). The value is
+% a cell array where the first element is the URL (no file extension)
+% and the second element is the local cache directory to store the
+% matrix in.
+%
+
+% Created by: Ian McInerney
+% Created on: August 18, 2022
+% SPDX-License-Identifier: MIT
 
 % Constants
 harwellMarketurl = 'https://math.nist.gov/pub/MatrixMarket2/Harwell-Boeing/';
